@@ -7,10 +7,10 @@ const equip = sequelize.define('e_total_list', {
     ID: {
       type: DataTypes.INTEGER,
     },
-    et_equipID:{
+    et_college:{
       type: DataTypes.STRING,
     },
-    et_equipmessage:{
+    et_equipID:{
       type: DataTypes.STRING,
     },
     et_classID: {
