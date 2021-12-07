@@ -4,6 +4,7 @@ const config = {
   username: 'root',
   password: 'root1234',
   dialect: 'mysql',
+  timezone: '+08:00',
   // port: 8011,
   pool: {
     max: 5,
@@ -12,7 +13,7 @@ const config = {
     idle: 10000
   },
   define: {
-    timestamps: false
+    timestamps: false,
 }
 };
 

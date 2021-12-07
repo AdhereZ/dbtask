@@ -3,11 +3,9 @@ const config = require('../config/config')
 const sequelize = new Sequelize(config)
 
 const book = sequelize.define('book_list', {
-    ID: {
-      type: DataTypes.INTEGER,
-    },
     book_ID:{
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+      primaryKey: true
     },
     book_name:{
       type: DataTypes.STRING,
@@ -20,6 +18,11 @@ const book = sequelize.define('book_list', {
     }
 },{
   tableName: 'book_list'
-})
+});
+
+(async function() {
+  await book.sync({alter: true})
+  console.log('book模型同步完毕');
+})();
 
 module.exports = book

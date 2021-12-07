@@ -1,29 +1,39 @@
 const {Sequelize,DataTypes} = require('sequelize')
 const config = require('../config/config')
 const sequelize = new Sequelize(config)
+const moment = require('moment');
 
-// 设备分布
+// 设备 库存
 const resourceManage = sequelize.define('r_manage_list', {
-    ID: {
-      type: DataTypes.INTEGER,
-    },
-    rm_resourcetype:{
+  resourceID:{
+    type: DataTypes.INTEGER,
+    primaryKey: true
+  },
+    resourcetype:{
       type: DataTypes.STRING,
     },
-    rm_resourceID:{
+    resourceName: {
       type: DataTypes.STRING,
     },
-    rm_status: {
-      type: DataTypes.INTEGER,
-    },
-    rm_count: {
-      type: DataTypes.INTEGER,
+    count: {
+      type: DataTypes.BIGINT,
     },
     rm_updatetime: {
-      type: DataTypes.STRING,
+      type: Sequelize.DATE,
+      get() {
+        return moment(this.getDataValue('rm_updatetime')).format('YYYY-MM-DD HH:mm:ss');
+    }
     }
 },{
-  tableName: 'r_manage_list'
-})
+  tableName: 'r_manage_list',
+  timestamps: true,
+  createdAt:false,
+  updatedAt: 'rm_updatetime'
+});
+
+(async function() {
+  await resourceManage.sync({alter: true})
+  console.log('resourceManage模型同步完毕');
+})();
 
 module.exports = resourceManage

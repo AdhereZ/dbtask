@@ -54,6 +54,20 @@ router.post('/changeEquip',auth,async(req,res) => {
     res.status(200).json({msg:'修改设备成功！'})
 })
 
+router.delete('/deleteEquip/:id',auth,async(req,res) => {
+ try {
+  const r = await equip.destroy({
+    where: {
+      id
+    }
+  })
+ } catch (error) {
+   return res.status(404).json({msg:'删除失败'})
+ }
+  res.status(204).json({msg:'删除成功'}) 
+  
+})
+
 
 
 module.exports = router

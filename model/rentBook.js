@@ -3,49 +3,43 @@ const config = require('../config/config')
 const sequelize = new Sequelize(config)
 const moment = require('moment');
 
-// 设备分布
-const resourceDistribute = sequelize.define('r_distribute_list', {
+const rentBook = sequelize.define('b_rent_list', {
     id: {
       type: DataTypes.UUID,
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true
     },
-    rd_userID:{
+    book_ID:{
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
+    book_name:{
       type: DataTypes.STRING,
     },
-    update_time:{
+    book_status: {
+      type: DataTypes.INTEGER,
+    },
+    update_time: {
       type: Sequelize.DATE,
       get() {
           return moment(this.getDataValue('update_time')).format('YYYY-MM-DD HH:mm:ss');
       }
     },
-    rd_status: {
-      type: DataTypes.INTEGER,
-      // 1 借 2还
-    },
-    resourceName: {
+    user_ID: {
       type: DataTypes.STRING,
-    },
-    resourcetype: {
-      type: DataTypes.STRING,
-    },
-    resourceID: {
-      type: DataTypes.INTEGER,
-    },
-    count: {
-      type: DataTypes.BIGINT,
     }
 },{
-  tableName: 'r_distribute_list',
+  tableName: 'b_rent_list',
   timestamps: true,
-  createdAt: false,
+  createdAt:false,
   updatedAt: 'update_time'
 });
 
 (async function() {
-  await resourceDistribute.sync({alter: true})
-  console.log('resourceDistribute模型同步完毕');
+  await rentBook.sync({alter: true})
+  console.log('rentBook模型同步完毕');
 })();
 
 
-module.exports = resourceDistribute
+
+module.exports = rentBook
