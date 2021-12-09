@@ -11,7 +11,7 @@ router.get('/getBooks',auth,async(req,res) => {
     r = await book.findAll({
       attributes: { exclude: ['ID'] },
       where:{
-        id:req.query.id
+        book_ID:req.query.id
       }
     }) 
   }
@@ -27,11 +27,11 @@ router.get('/getBooks',auth,async(req,res) => {
 })
 
 router.post('/changeBook',auth,async(req,res) => {
-  let id = req.body.id
-  delete req.body.id
+  let book_ID = req.body.book_ID
+  delete req.body.book_ID
   const r=await book.update(req.body,{
     where:{
-      id
+      book_ID
     }
   })
   if(!r)

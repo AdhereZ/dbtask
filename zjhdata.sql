@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2021-12-02 15:09:08
+-- 生成日期： 2021-12-09 08:59:14
 -- 服务器版本： 8.0.17
 -- PHP 版本： 7.3.10
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库： `lrms`
+-- 数据库： `zjhdata`
 --
 
 -- --------------------------------------------------------
@@ -31,17 +31,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `a_manage_list` (
   `ID` int(11) NOT NULL COMMENT '账号ID',
   `am_account` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '账号',
-  `am_password` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密码',
-  `am_limit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '权限'
+  `am_limit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '权限',
+  `am_password` varchar(100) NOT NULL COMMENT '密码'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='账号管理表';
 
 --
 -- 转存表中的数据 `a_manage_list`
 --
 
-INSERT INTO `a_manage_list` (`ID`, `am_account`, `am_password`, `am_limit`) VALUES
-(1, 'lab001', '201902010314', 'manager'),
-(2, 'lab002', '201902010315', 'manager');
+INSERT INTO `a_manage_list` (`ID`, `am_account`, `am_limit`, `am_password`) VALUES
+(7, 'admin', 'manager', 'e10adc3949ba59abbe56e057f20f883e'),
+(8, 'zhengjiahao', 'manager', 'fcea920f7412b5da7be0cf42b8c93759');
 
 -- --------------------------------------------------------
 
@@ -50,19 +50,45 @@ INSERT INTO `a_manage_list` (`ID`, `am_account`, `am_password`, `am_limit`) VALU
 --
 
 CREATE TABLE `book_list` (
-  `ID` int(20) NOT NULL,
-  `book_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '图书ID',
-  `book_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '书名',
-  `book_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类',
-  `book_status` int(20) NOT NULL COMMENT '状态'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='图书管理表';
+  `book_ID` int(11) NOT NULL,
+  `book_name` varchar(255) DEFAULT NULL,
+  `book_type` varchar(255) DEFAULT NULL,
+  `book_status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `book_list`
 --
 
-INSERT INTO `book_list` (`ID`, `book_ID`, `book_name`, `book_type`, `book_status`) VALUES
-(1, '001', 'Foundation Episode 1', 'Sci Fic', 1);
+INSERT INTO `book_list` (`book_ID`, `book_name`, `book_type`, `book_status`) VALUES
+(1, '动物世界', '动物科普类', 1),
+(2, 'python程序设计', '程序设计', 2),
+(3, '概率论与数理统计', '数学学科书', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `b_rent_list`
+--
+
+CREATE TABLE `b_rent_list` (
+  `id` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `book_ID` int(20) NOT NULL,
+  `book_name` varchar(255) DEFAULT NULL,
+  `book_status` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `user_ID` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `b_rent_list`
+--
+
+INSERT INTO `b_rent_list` (`id`, `book_ID`, `book_name`, `book_status`, `update_time`, `user_ID`) VALUES
+('2cbed7e0-5744-11ec-a1c5-e375d05103db', 4, '名侦探柯南', 2, '2021-12-07 17:58:06', 'admin'),
+('3dc72510-57f8-11ec-a06d-63032010bc7f', 1, '动物世界', 1, '2021-12-08 15:27:04', 'hhx'),
+('d6efc150-5697-11ec-8807-c780356a40ea', 1, '动物世界', 2, '2021-12-06 21:24:28', 'hhx'),
+('ff3ab250-5697-11ec-8807-c780356a40ea', 2, 'python程序设计', 2, '2021-12-06 21:25:36', 'admin');
 
 -- --------------------------------------------------------
 
@@ -87,19 +113,21 @@ CREATE TABLE `e_distribute_list` (
 
 CREATE TABLE `e_total_list` (
   `ID` int(20) NOT NULL,
+  `et_college` varchar(100) NOT NULL COMMENT '学院',
   `et_classID` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '教室号',
   `et_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '设备类别',
   `et_equipID` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '设备编号',
-  `et_equipstatus` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '设备状态',
-  `et_equipmessage` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '设备信息'
+  `et_equipstatus` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '设备状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='设备总表';
 
 --
 -- 转存表中的数据 `e_total_list`
 --
 
-INSERT INTO `e_total_list` (`ID`, `et_classID`, `et_type`, `et_equipID`, `et_equipstatus`, `et_equipmessage`) VALUES
-(1, '', '投影仪', 'pro001', '正常', '');
+INSERT INTO `e_total_list` (`ID`, `et_college`, `et_classID`, `et_type`, `et_equipID`, `et_equipstatus`) VALUES
+(1, '大数据学院', 'C0-456', '投影仪', 'pro001', '正常'),
+(2, '交通', 'C0-556', '电脑显示屏', 'sztu001', '损坏'),
+(3, '创设', 'C1-796', '单反照相机', 'sztu201', '正常');
 
 -- --------------------------------------------------------
 
@@ -174,20 +202,23 @@ INSERT INTO `resource_keys` (`ID`, `NUMBER`, `LABDOOR_NUM`, `STATUS`) VALUES
 --
 
 CREATE TABLE `r_distribute_list` (
-  `ID` int(20) NOT NULL,
-  `rd_userID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分配用户ID',
-  `rd_renttime` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '借出时间',
-  `rd_returntime` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '归还时间',
-  `rd_resourcetype` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '资源类型',
-  `rd_resourceID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '资源编号'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='资源分配表';
+  `id` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `rd_userID` varchar(255) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `rd_status` int(11) DEFAULT NULL,
+  `resourceName` varchar(255) DEFAULT NULL,
+  `resourcetype` varchar(255) DEFAULT NULL,
+  `resourceID` int(11) DEFAULT NULL,
+  `count` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `r_distribute_list`
 --
 
-INSERT INTO `r_distribute_list` (`ID`, `rd_userID`, `rd_renttime`, `rd_returntime`, `rd_resourcetype`, `rd_resourceID`) VALUES
-(1, 'lab001', '2021-11-22', '∞', 'server', '001');
+INSERT INTO `r_distribute_list` (`id`, `rd_userID`, `update_time`, `rd_status`, `resourceName`, `resourcetype`, `resourceID`, `count`) VALUES
+('2a9c4e50-57fa-11ec-a06d-63032010bc7f', 'admin', '2021-12-08 15:44:35', 1, '烧杯', '化学实验器材', 9, 10),
+('96369510-575c-11ec-a9da-db4a3ba25677', 'admin', '2021-12-07 22:01:03', 1, '烧杯', '化学实验器材', 9, 100);
 
 -- --------------------------------------------------------
 
@@ -196,21 +227,43 @@ INSERT INTO `r_distribute_list` (`ID`, `rd_userID`, `rd_renttime`, `rd_returntim
 --
 
 CREATE TABLE `r_manage_list` (
-  `ID` int(20) NOT NULL,
-  `rm_resourcetype` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '资源类型',
-  `rm_resourceID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '资源编号',
-  `rm_status` int(10) NOT NULL COMMENT '状态',
-  `rm_count` int(20) NOT NULL COMMENT '数量',
-  `rm_updatetime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '更新时间（最近一次）'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='资源管理表';
+  `resourceID` int(50) NOT NULL,
+  `resourceName` varchar(255) DEFAULT NULL,
+  `resourcetype` varchar(255) DEFAULT NULL,
+  `count` bigint(20) DEFAULT NULL,
+  `rm_updatetime` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `r_manage_list`
 --
 
-INSERT INTO `r_manage_list` (`ID`, `rm_resourcetype`, `rm_resourceID`, `rm_status`, `rm_count`, `rm_updatetime`) VALUES
-(1, 'ink', '001', 1, 3999, '2021-11-21'),
-(2, 'paper', '003', 0, 10, '2021-1-1');
+INSERT INTO `r_manage_list` (`resourceID`, `resourceName`, `resourcetype`, `count`, `rm_updatetime`) VALUES
+(5, '面包板', '微机实验器材', 150, '2021-12-07 17:56:19'),
+(9, '烧杯', '化学实验器材', 790, '2021-12-08 15:44:35'),
+(10, '250mL量筒', '化学实验器材', 800, '2021-12-07 18:25:31'),
+(11, '万用表', '物理实验器材', 500, '2021-12-07 20:52:27'),
+(12, '试管', '化学实验器材', 500, '2021-12-08 15:30:40');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `test`
+--
+
+CREATE TABLE `test` (
+  `test_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `test`
+--
+
+INSERT INTO `test` (`test_id`) VALUES
+(120),
+(122),
+(111),
+(211);
 
 -- --------------------------------------------------------
 
@@ -246,7 +299,13 @@ ALTER TABLE `a_manage_list`
 -- 表的索引 `book_list`
 --
 ALTER TABLE `book_list`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`book_ID`);
+
+--
+-- 表的索引 `b_rent_list`
+--
+ALTER TABLE `b_rent_list`
+  ADD PRIMARY KEY (`id`,`book_ID`);
 
 --
 -- 表的索引 `e_distribute_list`
@@ -282,13 +341,13 @@ ALTER TABLE `resource_keys`
 -- 表的索引 `r_distribute_list`
 --
 ALTER TABLE `r_distribute_list`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `r_manage_list`
 --
 ALTER TABLE `r_manage_list`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`resourceID`);
 
 --
 -- 表的索引 `webresource_list`
@@ -304,13 +363,13 @@ ALTER TABLE `webresource_list`
 -- 使用表AUTO_INCREMENT `a_manage_list`
 --
 ALTER TABLE `a_manage_list`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '账号ID', AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '账号ID', AUTO_INCREMENT=9;
 
 --
 -- 使用表AUTO_INCREMENT `book_list`
 --
 ALTER TABLE `book_list`
-  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `book_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用表AUTO_INCREMENT `e_distribute_list`
@@ -322,7 +381,7 @@ ALTER TABLE `e_distribute_list`
 -- 使用表AUTO_INCREMENT `e_total_list`
 --
 ALTER TABLE `e_total_list`
-  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 使用表AUTO_INCREMENT `e_usage_list`
@@ -343,16 +402,10 @@ ALTER TABLE `resource_keys`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- 使用表AUTO_INCREMENT `r_distribute_list`
---
-ALTER TABLE `r_distribute_list`
-  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- 使用表AUTO_INCREMENT `r_manage_list`
 --
 ALTER TABLE `r_manage_list`
-  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `resourceID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- 使用表AUTO_INCREMENT `webresource_list`

@@ -58,7 +58,7 @@ router.delete('/deleteEquip/:id',auth,async(req,res) => {
  try {
   const r = await equip.destroy({
     where: {
-      id
+      id:req.params.id
     }
   })
  } catch (error) {
